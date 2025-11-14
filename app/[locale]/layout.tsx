@@ -16,10 +16,20 @@ export default async function LocaleLayout({children, params: {locale}}: {
 
   return (
     <html lang={locale}>
-      <body className={inter.className}>
-        <NextIntlClientProvider messages={messages}>
+      <body className={`${inter.className} bg-slate-950 text-slate-50`}>
+        <NextIntlClientProvider 
+          messages={{
+            // Передаем только необходимые для клиента пространства имен
+            Navigation: messages.Navigation,
+            HomePage: messages.HomePage,
+            Footer: messages.Footer,
+            NotFound: messages.NotFound,
+          }}
+        >
           <Header />
-          {children}
+          <main className="flex-grow">
+            {children}
+          </main>
           <Footer />
         </NextIntlClientProvider>
       </body>

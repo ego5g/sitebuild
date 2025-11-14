@@ -1,85 +1,65 @@
-
 {
   "Navigation": {
     "home": "Home",
-    "about": "About",
+    "about": "About Us",
     "portfolio": "Portfolio",
     "templates": "Templates",
     "contact": "Contact"
   },
   "HomePage": {
     "hero": {
-      "title": "We create websites for business in Georgia",
-      "subtitle": "Development, SEO, integrations, acceleration - everything is turnkey",
-      "orderButton": "Order a website",
-      "portfolioButton": "View works"
+      "line1": "We create websites that",
+      "gradientText": "work for you",
+      "line2": "in Georgia",
+      "subtitle": "From landing pages to complex web applications. We turn your ideas into effective digital solutions that attract customers and grow business.",
+      "ctaButton": "Discuss a project",
+      "secondaryButton": "View portfolio"
     },
     "services": {
-      "title": "Key services",
-      "items": {
-        "development": "Website development",
-        "seo": "SEO promotion",
-        "responsive": "Responsive for mobile",
-        "payment": "Payment connection",
-        "migration": "Migration from builders",
-        "crm": "CRM and bot integration"
+      "title": "Our key services",
+      "subtitle": "We offer a full development cycle to achieve your business goals.",
+      "development": {
+        "title": "Web Development",
+        "description": "Modern, fast, and responsive websites on Next.js, working perfectly on any device."
       },
-      "allServicesButton": "All services"
-    },
-    "portfolio": {
-      "title": "Portfolio",
-      "allWorksButton": "View all works"
-    },
-    "advantages": {
-      "title": "Advantages of working with us",
-      "items": {
-        "local": "We work in Georgia and understand local requirements",
-        "fast": "Fast development",
-        "transparent": "Honest transparent prices",
-        "responsive": "We make responsive right away",
-        "seo": "SEO is already built into the structure"
-      }
-    },
-    "pricing": {
-      "title": "Tariffs or price services",
-      "items": {
-        "turnkey": "Turnkey website - from XX₾",
-        "seo": "SEO - from XX₾",
-        "integrations": "Integrations - from XX₾"
+      "design": {
+        "title": "UI/UX Design",
+        "description": "We design intuitive and aesthetically pleasing interfaces that users love."
       },
-      "fullPriceButton": "Open full price list"
-    },
-    "trust": {
-      "title": "Why they trust us",
-      "reviews": "Reviews + client logos (even 3-5 are enough)."
-    },
-    "process": {
-      "title": "How the work is done",
-      "steps": {
-        "discuss": "Discuss the task",
-        "propose": "Propose a solution",
-        "create": "Make a website",
-        "launch": "Launch and support"
+      "seo": {
+        "title": "SEO Optimization",
+        "description": "We ensure high visibility of your website in search engines to attract organic traffic."
       }
     },
-    "faq": {
-      "title": "Frequently asked questions",
-      "questions": {
-        "duration": "How long does it take to create a website?",
-        "migration": "Can you migrate a website from Tilda/Wix?",
-        "payment": "What payment methods are available in Georgia?"
-      }
-    },
-    "contact": {
-      "title": "Leave a request - we will respond within 15 minutes",
-      "name": "Name",
-      "phone": "Phone",
-      "telegram_email": "Telegram/Email"
+    "cta": {
+      "title": "Ready to start a project?",
+      "subtitle": "Tell us about your idea, and we will offer the best solution for its implementation.",
+      "button": "Contact us"
     }
+  },
+  "Footer": {
+    "about": {
+      "description": "Creating websites for your business in Georgia."
+    },
+    "sitemap": {
+      "title": "Sitemap",
+      "home": "Home",
+      "about": "About Us",
+      "portfolio": "Portfolio",
+      "contact": "Contact"
+    },
+    "contacts": {
+      "title": "Contacts",
+      "phone": "Phone"
+    },
+    "social": {
+      "title": "Follow Us"
+    },
+    "copyright": "© {year} WebBuildGE. All rights reserved."
   },
   "NotFound": {
     "title": "Page not found",
     "description": "The page you are looking for does not exist.",
-    "goHome": "Go home"
+    "goHome": "Go back home"
   }
 }
