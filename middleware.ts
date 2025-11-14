@@ -1,4 +1,3 @@
-
 import createMiddleware from 'next-intl/middleware';
  
 export default createMiddleware({
@@ -8,5 +7,8 @@ export default createMiddleware({
 });
  
 export const config = {
-  matcher: ['/', '/(ru|en|ka)/:path*']
+  matcher: [
+    // Исключаем Next.js internals и static файлы
+    '/((?!_next|api|.*\\..*|favicon|robots|sitemap|apple-touch-icon).*)',
+  ]
 };

@@ -32,12 +32,11 @@ export default function LanguageSwitcher() {
   const switcherRef = useRef<HTMLDivElement>(null);
   const [isPending, startTransition] = useTransition();
 
-
   useOnClickOutside(switcherRef, () => setIsOpen(false));
 
   const handleLanguageChange = (newLocale: string) => {
-    setIsOpen(false);
     startTransition(() => {
+      setIsOpen(false);
       router.replace(pathname, { locale: newLocale });
     });
   };
@@ -51,7 +50,7 @@ export default function LanguageSwitcher() {
   return (
     <div className="relative" ref={switcherRef}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => !isPending && setIsOpen(!isOpen)}
         disabled={isPending}
         className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
         aria-label="Open language switcher"
@@ -59,8 +58,8 @@ export default function LanguageSwitcher() {
         <span className="font-semibold text-sm">{currentLocale.toUpperCase()}</span>
       </button>
       
-      <AnimatePresence>
-        {isOpen && (
+      <AnimatePresence mode="wait">
+        {isOpen && !isPending && (
           <motion.div
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}

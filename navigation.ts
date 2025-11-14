@@ -1,13 +1,11 @@
-
 import {
   createLocalizedPathnamesNavigation,
   Pathnames
 } from 'next-intl/navigation';
 
-export const locales = ['en', 'ru' , 'ka'] as const;
+export const locales = ['en', 'ru', 'ka'] as const;
 
-// The `pathnames` object holds pairs of internal / navigation pathnames.
-// The key is the internal path, and the value is the language-specific navigation path.
+// Русский - без префикса, en и ka - с префиксом
 export const pathnames = {
   '/': '/',
   '/about': {
@@ -43,8 +41,10 @@ export const pathnames = {
 } satisfies Pathnames<typeof locales>;
 
 export const {Link, redirect, usePathname, useRouter} =
-  createLocalizedPathnamesNavigation({locales, pathnames, localePrefix: 'always'});
-
-// No need to export localePrefix separately anymore as it's now part of the navigation configuration.
+  createLocalizedPathnamesNavigation({
+    locales,
+    pathnames,
+    localePrefix: 'as-needed', // ru без префикса, en и ka с префиксом
+  });
 
 export type AppPathnames = keyof typeof pathnames;
