@@ -1,0 +1,85 @@
+
+{
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "templates": "Templates",
+    "contact": "Contact"
+  },
+  "HomePage": {
+    "hero": {
+      "title": "We create websites for business in Georgia",
+      "subtitle": "Development, SEO, integrations, acceleration - everything is turnkey",
+      "orderButton": "Order a website",
+      "portfolioButton": "View works"
+    },
+    "services": {
+      "title": "Key services",
+      "items": {
+        "development": "Website development",
+        "seo": "SEO promotion",
+        "responsive": "Responsive for mobile",
+        "payment": "Payment connection",
+        "migration": "Migration from builders",
+        "crm": "CRM and bot integration"
+      },
+      "allServicesButton": "All services"
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "allWorksButton": "View all works"
+    },
+    "advantages": {
+      "title": "Advantages of working with us",
+      "items": {
+        "local": "We work in Georgia and understand local requirements",
+        "fast": "Fast development",
+        "transparent": "Honest transparent prices",
+        "responsive": "We make responsive right away",
+        "seo": "SEO is already built into the structure"
+      }
+    },
+    "pricing": {
+      "title": "Tariffs or price services",
+      "items": {
+        "turnkey": "Turnkey website - from XX₾",
+        "seo": "SEO - from XX₾",
+        "integrations": "Integrations - from XX₾"
+      },
+      "fullPriceButton": "Open full price list"
+    },
+    "trust": {
+      "title": "Why they trust us",
+      "reviews": "Reviews + client logos (even 3-5 are enough)."
+    },
+    "process": {
+      "title": "How the work is done",
+      "steps": {
+        "discuss": "Discuss the task",
+        "propose": "Propose a solution",
+        "create": "Make a website",
+        "launch": "Launch and support"
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "questions": {
+        "duration": "How long does it take to create a website?",
+        "migration": "Can you migrate a website from Tilda/Wix?",
+        "payment": "What payment methods are available in Georgia?"
+      }
+    },
+    "contact": {
+      "title": "Leave a request - we will respond within 15 minutes",
+      "name": "Name",
+      "phone": "Phone",
+      "telegram_email": "Telegram/Email"
+    }
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist.",
+    "goHome": "Go home"
+  }
+}
