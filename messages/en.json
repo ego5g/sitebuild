@@ -3,6 +3,8 @@
     "home": "Home",
     "about": "About Us",
     "portfolio": "Portfolio",
+    "services": "Services",
+    "prices": "Prices",
     "templates": "Templates",
     "contact": "Contact"
   },
@@ -35,6 +37,102 @@
       "title": "Ready to start a project?",
       "subtitle": "Tell us about your idea, and we will offer the best solution for its implementation.",
       "button": "Contact us"
+    }
+  },
+  "ServicesPage": {
+    "title": "Services",
+    "subtitle": "We create digital products that help your business grow. From simple websites to complex web applications, we will find the perfect solution for your needs.",
+    "list": [
+      {
+        "title": "Landing Page",
+        "description": "An effective one-page site to present a company, service, or product. It collects leads and increases conversion.",
+        "price": "from $400"
+      },
+      {
+        "title": "Corporate Website",
+        "description": "A multi-page website representing your company on the Internet. It builds image and trust, and informs customers.",
+        "price": "from $900"
+      },
+      {
+        "title": "E-commerce Store",
+        "description": "A full-fledged e-commerce platform for selling products online. Integration with payment systems and delivery services.",
+        "price": "from $1500"
+      },
+      {
+        "title": "Promo Website",
+        "description": "A bright and interactive site to promote a specific product or promotion. Maximum visual effect.",
+        "price": "from $700"
+      },
+      {
+        "title": "Web Portal",
+        "description": "A complex information resource with a large number of sections and services, designed for high traffic.",
+        "price": "from $3000"
+      },
+      {
+        "title": "Web Application",
+        "description": "Development of complex interactive systems (SPA, PWA) on React/Next.js to solve unique business tasks.",
+        "price": "from $2500"
+      },
+      {
+        "title": "Redesign and Support",
+        "description": "Updating an outdated design, migrating to a new CMS, improving functionality, and providing technical support for your site.",
+        "price": "custom"
+      },
+      {
+        "title": "SEO Promotion",
+        "description": "A set of works to optimize a website for search engines in order to attract targeted traffic.",
+        "price": "from $300/month"
+      }
+    ],
+    "button": "Learn More"
+  },
+  "PricesPage": {
+    "title": "Our Pricing",
+    "subtitle": "Choose the plan that best suits your goals. We offer flexible solutions for any type of business.",
+    "plans": {
+      "basic": {
+        "title": "Basic",
+        "price": "from $500",
+        "description": "Ideal for landing pages and small projects.",
+        "features": [
+          "Up to 5 pages",
+          "Responsive design",
+          "Basic SEO optimization",
+          "Contact form"
+        ],
+        "button": "Order Now"
+      },
+      "standard": {
+        "title": "Standard",
+        "price": "from $1500",
+        "description": "Best choice for business websites and blogs.",
+        "features": [
+          "Up to 15 pages",
+          "Custom design",
+          "Advanced SEO optimization",
+          "CMS Integration (WordPress/Tilda)",
+          "Blog"
+        ],
+        "button": "Order Now"
+      },
+      "premium": {
+        "title": "Premium",
+        "price": "from $3000",
+        "description": "For complex portals and web applications.",
+        "features": [
+          "Unlimited pages",
+          "Complex animations and logic",
+          "CRM/API integration",
+          "Next.js/React development",
+          "Priority support"
+        ],
+        "button": "Order Now"
+      }
+    },
+    "custom": {
+      "title": "Custom Project?",
+      "subtitle": "If none of the plans suit you, contact us for a custom quote.",
+      "button": "Discuss Project"
     }
   },
   "Footer": {

@@ -31,16 +31,16 @@ export default function Footer() {
 
   return (
     <footer className="w-full border-t border-slate-800 bg-slate-950 text-slate-300">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4 sm:px-6 lg:px-8 py-12">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 px-4 sm:px-6 lg:px-8 py-16">
         
         {/* About Section */}
-        <div className="col-span-1 md:col-span-1">
-          <h3 className="text-xl font-bold gradient-text mb-4">WebDevGE</h3>
+        <div className="text-center md:text-left">
+          <h3 className="text-xl font-bold gradient-text mb-4">WebBuildGE</h3>
           <p className="text-sm text-slate-400">{t('about.description')}</p>
         </div>
 
         {/* Sitemap Section */}
-        <div>
+        <div className="text-center md:text-left">
           <h3 className="font-semibold text-slate-100 mb-4">{t('sitemap.title')}</h3>
           <ul className="space-y-2 text-sm">
             <li><Link href="/" className="hover:text-white transition-colors">{t('sitemap.home')}</Link></li>
@@ -51,7 +51,7 @@ export default function Footer() {
         </div>
 
         {/* Contacts Section */}
-        <div>
+        <div className="text-center md:text-left">
           <h3 className="font-semibold text-slate-100 mb-4">{t('contacts.title')}</h3>
           <ul className="space-y-2 text-sm text-slate-400">
             <li><span className="font-semibold text-slate-300">Email:</span> contact@webdev.ge</li>
@@ -61,9 +61,9 @@ export default function Footer() {
         </div>
 
         {/* Social Media Section */}
-        <div>
+        <div className="text-center md:text-left">
           <h3 className="font-semibold text-slate-100 mb-4">{t('social.title')}</h3>
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 justify-center md:justify-start">
             <a href="#" className="text-slate-400 hover:text-white transition-colors"><FacebookIcon className="h-6 w-6" /></a>
             <a href="#" className="text-slate-400 hover:text-white transition-colors"><TwitterIcon className="h-6 w-6" /></a>
             <a href="#" className="text-slate-400 hover:text-white transition-colors"><InstagramIcon className="h-6 w-6" /></a>
@@ -71,7 +71,7 @@ export default function Footer() {
         </div>
 
       </div>
-      <div className="border-t border-slate-800 py-4">
+      <div className="border-t border-slate-800 py-6">
         <p className="text-center text-sm text-slate-500">
           {t('copyright', { year })}
         </p>
