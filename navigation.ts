@@ -13,17 +13,27 @@ export const pathnames = {
     ru: '/about',
     ka: '/about',
   },
-    '/portfolio': {
+  '/portfolio': {
     en: '/portfolio',
     ru: '/portfolio',
     ka: '/portfolio',
   },
-    '/templates': {
+  '/services': {
+    en: '/services',
+    ru: '/services',
+    ka: '/services',
+  },
+  '/prices': {
+    en: '/prices',
+    ru: '/prices',
+    ka: '/prices',
+  },
+  '/templates': {
     en: '/templates',
     ru: '/templates',
     ka: '/templates',
   },
-    '/contact': {
+  '/contact': {
     en: '/contact',
     ru: '/contact',
     ka: '/contact',

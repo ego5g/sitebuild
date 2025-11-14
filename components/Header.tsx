@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { Link, usePathname } from '../navigation';
+import { Link, usePathname, useRouter } from '../navigation';
 import LanguageSwitcher from './LanguageSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -46,6 +46,7 @@ const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function Header() {
   const t = useTranslations('Navigation');
   const pathname = usePathname();
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -60,6 +61,13 @@ export default function Header() {
     { name: t('templates'), href: '/templates' },
     { name: t('contact'), href: '/contact' },
   ];
+
+  const handleLinkClick = (href: string) => {
+    setIsMenuOpen(false);
+    setTimeout(() => {
+      router.push(href);
+    }, 300); // Wait for menu close animation
+  };
 
   return (
     <header className="sticky top-0 z-30 w-full border-b border-slate-800 bg-slate-950">
@@ -110,13 +118,15 @@ export default function Header() {
       {/* Mobile Menu Panel */}
       <AnimatePresence>
         {isMenuOpen && (
-            <>
-            {/* Backdrop */}
-            <motion.div 
-                className="fixed inset-0 z-40 bg-black/60 md:hidden"
+             <motion.div
+                key="mobile-menu-wrapper"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+            >
+            {/* Backdrop */}
+            <div 
+                className="fixed inset-0 z-40 bg-black/60 md:hidden"
                 onClick={() => setIsMenuOpen(false)}
             />
             {/* Menu */}
@@ -129,7 +139,7 @@ export default function Header() {
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
                 <div className="flex items-center justify-between p-5 border-b border-slate-800">
-                    <Link href="/" className="flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
+                    <Link href="/" className="flex items-center gap-2" onClick={() => handleLinkClick('/')}>
                         <span className="text-xl font-bold gradient-text">WebBuildGE</span>
                     </Link>
                     <button 
@@ -143,18 +153,17 @@ export default function Header() {
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
                         return (
-                        <Link
+                        <button
                             key={link.name}
-                            href={link.href}
-                            className={`rounded-md px-4 py-2.5 text-base font-medium transition-colors hover:bg-slate-800 hover:text-white ${isActive ? 'bg-slate-800 text-white' : 'text-slate-300'}`}
-                            onClick={() => setIsMenuOpen(false)} >
+                            onClick={() => handleLinkClick(link.href)}
+                            className={`w-full text-left rounded-md px-4 py-2.5 text-base font-medium transition-colors hover:bg-slate-800 hover:text-white ${isActive ? 'bg-slate-800 text-white' : 'text-slate-300'}`}>
                             {link.name}
-                        </Link>
+                        </button>
                         );
                     })}
                 </nav>
             </motion.div>
-            </>
+            </motion.div>
         )}
         </AnimatePresence>
     </header>
