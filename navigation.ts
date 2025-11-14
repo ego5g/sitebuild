@@ -6,6 +6,8 @@ import {
 
 export const locales = ['en', 'ru' , 'ka'] as const;
 
+// The `pathnames` object holds pairs of internal / navigation pathnames.
+// The key is the internal path, and the value is the language-specific navigation path.
 export const pathnames = {
   '/': '/',
   '/about': {
@@ -41,9 +43,8 @@ export const pathnames = {
 } satisfies Pathnames<typeof locales>;
 
 export const {Link, redirect, usePathname, useRouter} =
-  createLocalizedPathnamesNavigation({locales, pathnames});
+  createLocalizedPathnamesNavigation({locales, pathnames, localePrefix: 'always'});
 
-// Use the default: `always`
-export const localePrefix = 'always';
+// No need to export localePrefix separately anymore as it's now part of the navigation configuration.
 
 export type AppPathnames = keyof typeof pathnames;

@@ -1,19 +1,20 @@
-
 import {getRequestConfig} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 
-const messages = {
-  en: () => import('./messages/en.json').then((module) => module.default),
-  ru: () => import('./messages/ru.json').then((module) => module.default),
-  ka: () => import('./messages/ka.json').then((module) => module.default),
-};
-
-export default getRequestConfig(async ({locale}) => {
-  if (!messages.hasOwnProperty(locale)) {
-    return notFound();
+// A list of all locales that are supported
+const locales = ['en', 'ru', 'ka'];
+ 
+export default getRequestConfig(async (params) => {
+  const locale = params.locale;
+ 
+  // Validate that the incoming `locale` parameter is one of the supported ones
+  if (locales.indexOf(locale) === -1) {
+    // If the locale is not supported, trigger a 404 page. 
+    // This function throws an error, so the code below will not execute.
+    notFound();
   }
-
+ 
   return {
-    messages: await messages[locale as keyof typeof messages](),
+    messages: (await import(`./messages/${locale}.json`)).default
   };
 });

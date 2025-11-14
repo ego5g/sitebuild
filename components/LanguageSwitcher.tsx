@@ -1,54 +1,86 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import { useRouter, usePathname, locales } from '../navigation';
-import { useState } from 'react';
+import { useRouter, usePathname, locales } from '@/navigation';
+import { useState, useRef, useEffect, useTransition } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
+// --- Custom Hook for detecting click outside ---
+function useOnClickOutside(ref: React.RefObject<HTMLElement>, handler: (event: MouseEvent | TouchEvent) => void) {
+  useEffect(() => {
+    const listener = (event: MouseEvent | TouchEvent) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) {
+        return;
+      }
+      handler(event);
+    };
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
+    return () => {
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [ref, handler]);
+}
+
+// --- Main LanguageSwitcher Component ---
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = useLocale();
+  const switcherRef = useRef<HTMLDivElement>(null);
+  const [isPending, startTransition] = useTransition();
+
+
+  useOnClickOutside(switcherRef, () => setIsOpen(false));
 
   const handleLanguageChange = (newLocale: string) => {
-    router.replace(pathname, { locale: newLocale });
     setIsOpen(false);
+    startTransition(() => {
+      router.replace(pathname, { locale: newLocale });
+    });
   };
 
-  const localeNames: {[key: string]: string} = {
+  const localeNames: { [key: string]: string } = {
     en: 'English',
     ru: 'Русский',
     ka: 'ქართული'
   };
 
   return (
-    <div className="relative">
+    <div className="relative" ref={switcherRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded inline-flex items-center"
+        disabled={isPending}
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="Open language switcher"
       >
-        <span>{currentLocale.toUpperCase()}</span>
-        <svg
-          className="fill-current h-4 w-4 ml-2"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        >
-          <path d="M5.516 7.548c.436-.446 1.144-.446 1.58 0L10 10.435l2.904-2.887c.436-.446 1.144-.446 1.58 0 .436.446.436 1.17 0 1.615l-3.694 3.66a1.12 1.12 0 0 1-1.58 0L5.516 9.163c-.436-.445-.436-1.17 0-1.615z" />
-        </svg>
+        <span className="font-semibold text-sm">{currentLocale.toUpperCase()}</span>
       </button>
-      {isOpen && (
-        <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-          {locales.filter(l => l !== currentLocale).map(l => (
-            <button
-              key={l}
-              onClick={() => handleLanguageChange(l)}
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
-            >
-              {localeNames[l]}
-            </button>
-          ))}
-        </div>
-      )}
+      
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="absolute right-0 mt-2 py-1 w-36 bg-slate-800 border border-slate-700 rounded-md shadow-lg z-20"
+          >
+            {locales.filter(l => l !== currentLocale).map(l => (
+              <button
+                key={l}
+                onClick={() => handleLanguageChange(l)}
+                disabled={isPending}
+                className="block w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {localeNames[l]}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

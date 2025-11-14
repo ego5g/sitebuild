@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { Link, usePathname, useRouter } from '../navigation';
+import { Link, usePathname, useRouter, type AppPathnames } from '@/navigation'; 
 import LanguageSwitcher from './LanguageSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,10 +15,8 @@ function useOnClickOutside(ref: React.RefObject<HTMLElement>, handler: (event: M
       }
       handler(event);
     };
-
     document.addEventListener('mousedown', listener);
     document.addEventListener('touchstart', listener);
-
     return () => {
       document.removeEventListener('mousedown', listener);
       document.removeEventListener('touchstart', listener);
@@ -29,16 +27,12 @@ function useOnClickOutside(ref: React.RefObject<HTMLElement>, handler: (event: M
 // --- Icons ---
 const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="3" y1="12" x2="21" y2="12" />
-        <line x1="3" y1="6" x2="21" y2="6" />
-        <line x1="3" y1="18" x2="21" y2="18" />
+        <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
     </svg>
 );
-
 const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18" />
-        <line x1="6" y1="6" x2="18" y2="18" />
+        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
     </svg>
 );
 
@@ -48,11 +42,13 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // State to store the path we want to navigate to after the animation.
+  const [navigatingTo, setNavigatingTo] = useState<AppPathnames | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(menuRef, () => setIsMenuOpen(false));
 
-  const navLinks = [
+  const navLinks: { name: string; href: AppPathnames }[] = [
     { name: t('home'), href: '/' },
     { name: t('about'), href: '/about' },
     { name: t('portfolio'), href: '/portfolio' },
@@ -62,20 +58,30 @@ export default function Header() {
     { name: t('contact'), href: '/contact' },
   ];
 
-  const handleLinkClick = (href: string) => {
-    setIsMenuOpen(false);
-    setTimeout(() => {
-      router.push(href);
-    }, 300); // Wait for menu close animation
+  // When a link is clicked, we set the destination and close the menu.
+  const handleLinkClick = (href: AppPathnames) => {
+    if (pathname === href) {
+      setIsMenuOpen(false);
+    } else {
+      setNavigatingTo(href);
+      setIsMenuOpen(false);
+    }
+  };
+
+  // This function will be called only after the exit animation is complete.
+  const onAnimationComplete = () => {
+    if (navigatingTo) {
+      router.push(navigatingTo);
+      setNavigatingTo(null); // Reset for the next navigation
+    }
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b border-slate-800 bg-slate-950">
+    <header className="sticky top-0 z-30 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-lg">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4">
-             {/* Mobile Menu Button */}
             <button 
-                className="md:hidden flex items-center justify-center h-12 w-12 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-slate-950 transition-all duration-300"
+                className="md:hidden p-2"
                 onClick={() => setIsMenuOpen(!isMenuOpen)} 
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}>
                 <AnimatePresence mode="wait">
@@ -95,13 +101,12 @@ export default function Header() {
             </Link>
         </div>
         
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-5 text-sm font-medium text-slate-300">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
-                key={link.name}
+                key={link.href}
                 href={link.href}
                 className={`transition-colors hover:text-white ${isActive ? 'text-white font-semibold' : ''}`}>
                 {link.name}
@@ -115,21 +120,17 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu Panel */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait" onExitComplete={onAnimationComplete}>
         {isMenuOpen && (
-             <motion.div
-                key="mobile-menu-wrapper"
+            <>
+            <motion.div 
+                className="fixed inset-0 z-40 bg-black/60 md:hidden"
+                onClick={() => setIsMenuOpen(false)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-            >
-            {/* Backdrop */}
-            <div 
-                className="fixed inset-0 z-40 bg-black/60 md:hidden"
-                onClick={() => setIsMenuOpen(false)}
+                transition={{ duration: 0.2 }}
             />
-            {/* Menu */}
             <motion.div
                 ref={menuRef}
                 className="fixed top-0 left-0 h-full w-64 bg-slate-950 border-r border-slate-800 z-50 md:hidden shadow-2xl"
@@ -139,12 +140,10 @@ export default function Header() {
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
                 <div className="flex items-center justify-between p-5 border-b border-slate-800">
-                    <Link href="/" className="flex items-center gap-2" onClick={() => handleLinkClick('/')}>
-                        <span className="text-xl font-bold gradient-text">WebBuildGE</span>
-                    </Link>
+                    <span className="text-xl font-bold gradient-text">WebBuildGE</span>
                     <button 
                         onClick={() => setIsMenuOpen(false)} 
-                        className="text-slate-400 hover:text-white transition-colors"
+                        className="p-2 -mr-2"
                         aria-label="Close menu">
                         <XIcon className="h-6 w-6" />
                     </button>
@@ -154,7 +153,7 @@ export default function Header() {
                         const isActive = pathname === link.href;
                         return (
                         <button
-                            key={link.name}
+                            key={link.href}
                             onClick={() => handleLinkClick(link.href)}
                             className={`w-full text-left rounded-md px-4 py-2.5 text-base font-medium transition-colors hover:bg-slate-800 hover:text-white ${isActive ? 'bg-slate-800 text-white' : 'text-slate-300'}`}>
                             {link.name}
@@ -163,7 +162,7 @@ export default function Header() {
                     })}
                 </nav>
             </motion.div>
-            </motion.div>
+            </>
         )}
         </AnimatePresence>
     </header>

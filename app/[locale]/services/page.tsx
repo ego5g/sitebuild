@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Link } from '../../../navigation';
+import { Link } from '@/navigation'; 
 import {
     LandingPageIcon,
     CorporateIcon,
@@ -11,7 +11,7 @@ import {
     WebAppIcon,
     RedesignIcon,
     SeoIcon
-} from '../../../components/ServiceIcons';
+} from '@/components/ServiceIcons'; 
 import { motion } from 'framer-motion';
 
 const iconMap: { [key: string]: React.FC<React.SVGProps<SVGSVGElement>> } = {
@@ -43,7 +43,14 @@ const iconMap: { [key: string]: React.FC<React.SVGProps<SVGSVGElement>> } = {
 
 export default function ServicesPage() {
   const t = useTranslations('ServicesPage');
-  const services = t.raw('list') as { title: string; description: string; price: string }[];
+  
+  // ROBUST DATA HANDLING:
+  // 1. Get the raw data from translations.
+  const servicesData = t.raw('list');
+
+  // 2. Check if the data is an array. If not, use an empty array as a fallback.
+  // This prevents the ".map is not a function" error regardless of the data structure in any .json file.
+  const services = Array.isArray(servicesData) ? servicesData : [];
 
   return (
     <div className="container mx-auto px-4 py-16 sm:py-24 lg:py-28">
@@ -57,11 +64,12 @@ export default function ServicesPage() {
       </div>
 
       <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-        {services.map((service, index) => {
+        {/* 3. Now, we can safely map the array. */}
+        {services.map((service: any, index: number) => {
             const Icon = iconMap[service.title] || LandingPageIcon; // Fallback to a default icon
             return(
           <motion.div 
-            key={index}
+            key={service.title || index} // Use title as key, fallback to index
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
