@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { Link, usePathname, useRouter } from '../navigation';
+import { Link, usePathname, useRouter, type AppPathnames } from '@/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -52,7 +52,7 @@ export default function Header() {
 
   useOnClickOutside(menuRef, () => setIsMenuOpen(false));
 
-  const navLinks = [
+  const navLinks: { name: string; href: AppPathnames }[] = [
     { name: t('home'), href: '/' },
     { name: t('about'), href: '/about' },
     { name: t('portfolio'), href: '/portfolio' },
@@ -62,7 +62,7 @@ export default function Header() {
     { name: t('contact'), href: '/contact' },
   ];
 
-  const handleLinkClick = (href: string) => {
+  const handleLinkClick = (href: AppPathnames) => {
     setIsMenuOpen(false);
     setTimeout(() => {
       router.push(href);
