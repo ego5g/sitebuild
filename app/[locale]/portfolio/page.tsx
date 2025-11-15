@@ -1,76 +1,137 @@
+'use client'; // This component needs to be a client component to use useState
+
+import {useState} from 'react'; // Import useState for managing component state
 import {useTranslations} from 'next-intl';
 import Image from 'next/image'; // Import Image component for optimized images
-import Link from 'next/link'; // Import Link component for client-side navigation
+import PortfolioModal from '@/components/PortfolioModal'; // Import the new PortfolioModal component
+
+// Define the type for a portfolio item for better type safety
+interface PortfolioItem {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+}
 
 export default function Portfolio() {
   const t = useTranslations('Navigation'); // Using 'Navigation' namespace for translations
 
-  // Placeholder data for portfolio items
-  const portfolioItems = [
+  // State to manage the currently selected portfolio item for the modal
+  const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
+  // State to control the visibility of the modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Automatically generate preview images for real links
+  const portfolioItems: PortfolioItem[] = [
     {
       id: 1,
-      title: 'Project Alpha',
-      description: 'A brief description of Project Alpha, highlighting its key features and technologies used.',
-      image: '/public/placeholder-image.jpg', // Placeholder image path, you'll replace this
-      link: 'https://example.com/project-alpha', // Example project link
+      title: 'Лендинг пейдж',
+      description: 'Пример одностраничного сайта (лендинга).',
+      link: 'https://testik-git-mobile-kam-projects.vercel.app/',
+      image: 'https://image.thum.io/get/width/1200/crop/900/trim/10/https://testik-git-mobile-kam-projects.vercel.app/',
     },
     {
       id: 2,
-      title: 'Project Beta',
-      description: 'An overview of Project Beta, showcasing its design and functionality.',
-      image: '/public/placeholder-image.jpg',
-      link: 'https://example.com/project-beta',
+      title: 'Helpmame',
+      description: 'Сайт услуг для мам с новорожденными.',
+      link: 'http://helpmame.ru/',
+      image: 'https://image.thum.io/get/width/1200/crop/900/trim/10/http://helpmame.ru/',
     },
     {
       id: 3,
-      title: 'Project Gamma',
-      description: 'Details about Project Gamma, including its challenges and solutions.',
-      image: '/public/placeholder-image.jpg',
-      link: 'https://example.com/project-gamma',
+      title: 'Sneakers Shop',
+      description: 'Магазин оригинальных кроссовок из USA.',
+      link: 'https://sneakers-5c581.firebaseapp.com/',
+      image: 'https://image.thum.io/get/width/1200/crop/900/trim/10/https://sneakers-5c581.firebaseapp.com/',
     },
     {
       id: 4,
-      title: 'Project Delta',
-      description: 'A summary of Project Delta, emphasizing user experience and innovation.',
-      image: '/public/placeholder-image.jpg',
+      title: 'Bazariara',
+      description: 'Маркетплейс с доставкой и упрощенным заказом.',
+      link: 'https://market-git-main-kam-projects.vercel.app/',
+      image: 'https://image.thum.io/get/width/1200/crop/900/trim/10/https://bazariara.ge/'
+    },
+    {
+      id: 5,
+      title: 'Проект Дельта',
+      description: 'Краткое описание проекта.',
+      image: '/placeholder-image.jpg',
       link: 'https://example.com/project-delta',
+    },
+     {
+      id: 6,
+      title: 'Проект Эпсилон',
+      description: 'Краткое описание проекта.',
+      image: '/placeholder-image.jpg',
+      link: 'https://example.com/project-epsilon',
+    },
+     {
+      id: 7,
+      title: 'Проект Дзета',
+      description: 'Краткое описание проекта.',
+      image: '/placeholder-image.jpg',
+      link: 'https://example.com/project-zeta',
+    },
+     {
+      id: 8,
+      title: 'Проект Эта',
+      description: 'Краткое описание проекта.',
+      image: '/placeholder-image.jpg',
+      link: 'https://example.com/project-eta',
     },
   ];
 
+  // Function to handle clicking on a portfolio item card
+  const handleCardClick = (item: PortfolioItem) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null); // Clear selected item when modal closes
+  };
+
   return (
-    <div className="container mx-auto py-20 px-4 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-bold text-center mb-12">{t('portfolio')}</h1>
+    <div className="container mx-auto py-3 px-4 sm:px-6 lg:px-8">
+      <h1 className="text-4xl font-bold text-center mb-4">{t('portfolio')}</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {portfolioItems.map((item) => (
-          <div key={item.id} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+          <div
+            key={item.id}
+            className="flex flex-col h-full bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer" // Refined main card styling
+            onClick={() => handleCardClick(item)} // Attach click handler to the card
+          >
             {/* Using Next.js Image component for performance optimization */}
-            <div className="relative w-full h-48 bg-gray-200">
+            <div className="relative w-full h-72 bg-gray-200">
               <Image
                 src={item.image}
                 alt={item.title}
                 layout="fill"
                 objectFit="cover"
-                // Consider adding a proper `alt` for accessibility, using item.title
-                // For local development, you might need to add `unoptimized={true}` if you don't configure image domains
+                unoptimized={true} // Required for external image services like thum.io
               />
             </div>
-            <div className="p-6">
-              <h2 className="text-2xl font-semibold mb-2">{item.title}</h2>
-              <p className="text-gray-700 mb-4">{item.description}</p>
-              <Link href={item.link} passHref legacyBehavior>
-                <a
-                  target="_blank" // Open in a new tab
-                  rel="noopener noreferrer" // Security best practice
-                  className="inline-block bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"
-                >
-                  {t('viewProject')} {/* Translate "View Project" button text */}
-                </a>
-              </Link>
+            <div className="flex flex-col justify-end flex-grow px-4 py-2 border-t-2 border-slate-700"> {/* Refined text content div styling with darker border */}
+              <h2 className="text-lg font-semibold text-gray-900 mb-1">{item.title}</h2> {/* Consistent title styling */}
+              <p className="text-gray-700 text-sm line-clamp-2">{item.description}</p> {/* Consistent description styling */}
+              {/* Removed direct link button from here, as it's now in the modal */}
             </div>
           </div>
         ))}
       </div>
+
+      {/* Render the PortfolioModal if it's open and an item is selected */}
+      {isModalOpen && selectedItem && (
+        <PortfolioModal
+          item={selectedItem}
+          viewProjectText={"Открыть проект"} // Pass the translated text for the button
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }

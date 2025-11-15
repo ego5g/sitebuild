@@ -2,11 +2,12 @@
   "Navigation": {
     "home": "Главная",
     "about": "О нас",
-    "portfolio": "Портфолио",
+    "portfolio": "Наши сайты",
     "services": "Услуги",
     "prices": "Цены",
     "templates": "Шаблоны",
-    "contact": "Контакты"
+    "contact": "Контакты",
+    "viewProject": "Открыть сайт"
   },
   "HomePage": {
     "hero": {
